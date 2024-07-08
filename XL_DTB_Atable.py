@@ -11,8 +11,6 @@ class Database_Atable:
         try:
             cursor = self.conn.cursor()
             cursor.execute('SELECT * FROM A_table')
-            # for row in cursor.fetchall():
-            #     print(row)
             result = cursor.fetchall()
             cursor.close()
             return result
@@ -20,7 +18,26 @@ class Database_Atable:
             print(f"Database error: {e}")
             return []
 
-    def Sua_Atb(self, Ten, start_1, start_2, start_3, Trang_thai ):
+    def Sua_Atb(self, Ten, start_1, start_2, start_3, Trang_thai,Ghi_chu_1,Ghi_chu_2, Ghi_chu_3 ):
+        try:
+            cursor = self.conn.cursor()
+            # Câu lệnh SQL để cập nhật thông tin nhân viên
+            sql_update_query = '''UPDATE A_table
+            SET start_1 = ?, start_2 = ?, start_3 = ?, Trang_thai = ?,Ghi_chu_1 =?,Ghi_chu_2=?, Ghi_chu_3=?
+            WHERE Ten = ?'''
+
+
+            cursor.execute(sql_update_query, (start_1, start_2, start_3, Trang_thai, Ghi_chu_1, Ghi_chu_2, Ghi_chu_3, Ten ))
+            print(Ten, start_1, start_2, start_3, Trang_thai,Ghi_chu_1,Ghi_chu_2, Ghi_chu_3)
+            self.conn.commit()
+            cursor.close()
+            print(f"Sua dl thanh cong: {Ten}")
+        except sqlite3.Error as e:
+            print(f"Database error: {e}")
+            self.conn.rollback()  # Rollback any changes if an error occurs
+
+
+    def Update_thanh_toan(self, Ten, start_1, start_2, start_3, Trang_thai ):
         try:
             cursor = self.conn.cursor()
             # Câu lệnh SQL để cập nhật thông tin nhân viên
@@ -36,7 +53,24 @@ class Database_Atable:
             print(f"Deleted student with code: {Ten}")
         except sqlite3.Error as e:
             print(f"Database error: {e}")
-            self.conn.rollback()  # Rollback any changes if an error occurs
+            self.conn.rollback()
+    def Tim_table(self, Name):
+        try:
+            cursor = self.conn.cursor()
+            query = '''SELECT start_1, start_2, start_3,Trang_thai, Ghi_chu_1, Ghi_chu_2, Ghi_chu_3
+                        FROM A_table 
+                        WHERE Ten = ?'''
+            cursor.execute(query, (Name,))
+            result = cursor.fetchall()
+            for row in result:
+                print(row)
+            cursor.close()
+            return result
+        except sqlite3.Error as e:
+            print(f"Database error: {e}")
+            return []
+
+
 
 
     def search_student(self, Name):
@@ -44,7 +78,6 @@ class Database_Atable:
             cursor = self.conn.cursor()
             query = "SELECT student_code, name FROM students WHERE name LIKE ?"
             cursor.execute(query, ('%' + Name + '%',))
-            #cursor.execute('SELECT * FROM students WHERE student_code,name LIKE ?', ('%' + Name+ '%',))
             result = cursor.fetchall()
             for row in result:
                 print(row)

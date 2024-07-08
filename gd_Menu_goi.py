@@ -187,6 +187,7 @@ class Ui_MainWindow(object):
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
         self.Tao_ds_label()
+        self.Tao_ds_goi()
 
     def Tao_ds_label(self):
         self.label_n = []  # List to store the button references
@@ -207,6 +208,24 @@ class Ui_MainWindow(object):
         self.label_n.append(self.label_15)  # Add button to list
         self.label_n.append(self.label_16)  # Add button to list
 
+    def Tao_ds_goi(self):
+        self.bt_goi_n = []
+        self.bt_goi_n.append(self.spinBox)
+        self.bt_goi_n.append(self.spinBox_2)
+        self.bt_goi_n.append(self.spinBox_3)
+        self.bt_goi_n.append(self.spinBox_4)
+        self.bt_goi_n.append(self.spinBox_5)
+        self.bt_goi_n.append(self.spinBox_6)
+        self.bt_goi_n.append(self.spinBox_7)
+        self.bt_goi_n.append(self.spinBox_8)
+        self.bt_goi_n.append(self.spinBox_9)
+        self.bt_goi_n.append(self.spinBox_10)
+        self.bt_goi_n.append(self.spinBox_11)
+        self.bt_goi_n.append(self.spinBox_12)
+        self.bt_goi_n.append(self.spinBox_13)
+        self.bt_goi_n.append(self.spinBox_14)
+        self.bt_goi_n.append(self.spinBox_15)
+        self.bt_goi_n.append(self.spinBox_16)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate

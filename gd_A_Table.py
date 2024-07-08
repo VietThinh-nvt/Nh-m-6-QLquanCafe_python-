@@ -19,7 +19,7 @@ class Ui_MainWindow(object):
         self.bt_Huy_mon.setGeometry(QtCore.QRect(130, 200, 56, 17))
         self.bt_Huy_mon.setObjectName("bt_Huy_mon")
         self.bt_Luu = QtWidgets.QPushButton(parent=self.centralwidget)
-        self.bt_Luu.setGeometry(QtCore.QRect(370, 220, 91, 17))
+        self.bt_Luu.setGeometry(QtCore.QRect(370, 240, 91, 17))
         self.bt_Luu.setObjectName("bt_Luu")
         self.Check_trong = QtWidgets.QRadioButton(parent=self.centralwidget)
         self.Check_trong.setEnabled(False)
@@ -60,7 +60,7 @@ class Ui_MainWindow(object):
         self.Check_dat.setGeometry(QtCore.QRect(370, 140, 62, 14))
         self.Check_dat.setObjectName("Check_dat")
         self.bt_Sua = QtWidgets.QPushButton(parent=self.centralwidget)
-        self.bt_Sua.setGeometry(QtCore.QRect(370, 200, 91, 17))
+        self.bt_Sua.setGeometry(QtCore.QRect(370, 190, 91, 17))
         self.bt_Sua.setObjectName("bt_Sua")
         self.time_start_1 = QtWidgets.QTimeEdit(parent=self.centralwidget)
         self.time_start_1.setEnabled(False)
@@ -86,6 +86,9 @@ class Ui_MainWindow(object):
         self.lineEdit = QtWidgets.QLineEdit(parent=self.centralwidget)
         self.lineEdit.setGeometry(QtCore.QRect(200, 200, 113, 20))
         self.lineEdit.setObjectName("lineEdit")
+        self.bt_Thanh_toan = QtWidgets.QPushButton(parent=self.centralwidget)
+        self.bt_Thanh_toan.setGeometry(QtCore.QRect(270, 240, 91, 17))
+        self.bt_Thanh_toan.setObjectName("bt_Thanh_toan")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(parent=MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 551, 18))
@@ -121,6 +124,7 @@ class Ui_MainWindow(object):
         self.Chu_thich_1.setText(_translate("MainWindow", "..."))
         self.Chu_thich_2.setText(_translate("MainWindow", "..."))
         self.Chu_thich_3.setText(_translate("MainWindow", "..."))
+        self.bt_Thanh_toan.setText(_translate("MainWindow", "Thanh toán"))
 
 
 if __name__ == "__main__":

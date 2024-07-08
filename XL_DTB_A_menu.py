@@ -11,8 +11,6 @@ class Database_Atable:
         try:
             cursor = self.conn.cursor()
             cursor.execute('SELECT * FROM a_menu_db')
-            # for row in cursor.fetchall():
-            #     print(row)
             result = cursor.fetchall()
             cursor.close()
             return result

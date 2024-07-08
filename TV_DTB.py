@@ -35,6 +35,44 @@ class DatabaseSV:
             print(f"Database error: {e}")
             return []
 
+    def Show_nv(self):
+        try:
+            cursor = self.conn.cursor()
+            cursor.execute('SELECT * FROM nhan_vien_db')
+            result = cursor.fetchall()
+            cursor.close()
+            return result
+        except sqlite3.Error as e:
+            print(f"Database error: {e}")
+            return []
+
+    def TK_id_nv(self, ID):
+        try:
+            cursor = self.conn.cursor()
+            query = "SELECT * FROM nhan_vien_db WHERE id = ?"
+            cursor.execute(query, (ID,))
+            result = cursor.fetchall()
+            for row in result:
+                print(row)
+            cursor.close()
+            return result
+        except sqlite3.Error as e:
+            print(f"Database error: {e}")
+            return []
+    def TK_Ten_nv(self, Name):
+        try:
+            cursor = self.conn.cursor()
+            query = "SELECT * FROM nhan_vien_db WHERE Ten LIKE ?"
+            cursor.execute(query, ('%' + Name + '%',))
+            result = cursor.fetchall()
+            for row in result:
+                print(row)
+            cursor.close()
+            return result
+        except sqlite3.Error as e:
+            print(f"Database error: {e}")
+            return []
+
     def search_student(self, Name):
         try:
             cursor = self.conn.cursor()

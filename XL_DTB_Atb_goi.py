@@ -7,44 +7,55 @@ class Database_Atable:
         self.db_name = db_name  # Lưu tên cơ sở dữ liệu
 
 
-    def LDL_a_tb( self ):
+    def Goi_mon_DTB( self,Ten_ban, ID_mon, So_luong, HT ):
         try:
             cursor = self.conn.cursor()
-            cursor.execute('SELECT * FROM A_table')
-            # for row in cursor.fetchall():
-            #     print(row)
-            result = cursor.fetchall()
-            cursor.close()
-            return result
-        except sqlite3.Error as e:
-            print(f"Database error: {e}")
-            return []
-
-    def Sua_Atb(self, Ten, start_1, start_2, start_3, Trang_thai ):
-        try:
-            cursor = self.conn.cursor()
-            # Câu lệnh SQL để cập nhật thông tin nhân viên
-            sql_update_query = '''UPDATE A_table
-                                      SET start_1 = ?, start_2 = ?, start_3 = ?, Trang_thai = ?
-                                      WHERE Ten = ?'''
-
-            # Thực hiện câu lệnh SQL với dữ liệu đầu vào
-            cursor.execute(sql_update_query, (start_1, start_2, start_3, Trang_thai,Ten ))
-
+            cursor.execute('''INSERT INTO A_table_goi (Ten_ban, ID_mon,So_luong, HT) 
+                                      VALUES (?, ?, ?, ?)''',(Ten_ban, ID_mon, So_luong, HT))
             self.conn.commit()
             cursor.close()
-            print(f"Deleted student with code: {Ten}")
         except sqlite3.Error as e:
-            print(f"Database error: {e}")
+            print(f"Database errorlllll: {e}")
             self.conn.rollback()  # Rollback any changes if an error occurs
 
-
-    def search_student(self, Name):
+    def Huy_mon( self,Ten_ban, ID_mon ):
         try:
             cursor = self.conn.cursor()
-            query = "SELECT student_code, name FROM students WHERE name LIKE ?"
-            cursor.execute(query, ('%' + Name + '%',))
-            #cursor.execute('SELECT * FROM students WHERE student_code,name LIKE ?', ('%' + Name+ '%',))
+            # Xóa dữ liệu từ bảng lich_su
+            cursor.execute('''
+                    DELETE FROM A_table_goi
+                    WHERE Ten_ban = ? AND ID_mon = ?
+                ''', (Ten_ban, ID_mon))
+            self.conn.commit()
+            cursor.close()
+        except sqlite3.Error as e:
+            print(f"Database errorlllll: {e}")
+            self.conn.rollback()
+
+    def Len_mon( self,Ten_ban, ID_mon,HT  ):
+        try:
+            cursor = self.conn.cursor()
+            # Sửa dữ liệu trong bảng lich_su
+            cursor.execute('''
+                   UPDATE A_table_goi
+                   SET HT = ?
+                   WHERE Ten_ban = ? AND ID_mon = ?
+               ''', (HT,Ten_ban, ID_mon))
+            self.conn.commit()
+            cursor.close()
+        except sqlite3.Error as e:
+            print(f"Database errorlllll: {e}")
+            self.conn.rollback()
+
+    def Tim_mon(self, Ten_ban, ID_mon):
+        try:
+            cursor = self.conn.cursor()
+            query = '''
+            SELECT Ten_ban, ID_mon,So_luong,HT
+            FROM A_table_goi
+             WHERE Ten_ban = ? AND ID_mon = ? 
+            '''
+            cursor.execute(query, (Ten_ban, ID_mon))
             result = cursor.fetchall()
             for row in result:
                 print(row)
@@ -54,59 +65,33 @@ class Database_Atable:
             print(f"Database error: {e}")
             return []
 
-    def get_all_students(self):
+    def DL_A_table(self, Name):
         try:
             cursor = self.conn.cursor()
-            query = "SELECT student_code, name FROM students ORDER BY student_code"
-            cursor.execute(query)
+            query = '''
+            SELECT A_table_goi.ID_mon,a_menu_db.Name, So_luong, HT, a_menu_db.Gia
+            FROM A_table_goi INNER JOIN a_menu_db ON A_table_goi.ID_mon = a_menu_db.ID
+            WHERE A_table_goi.Ten_ban = ?
+            '''
+            cursor.execute(query, ( Name,))
             result = cursor.fetchall()
+            for row in result:
+                print(row)
             cursor.close()
             return result
         except sqlite3.Error as e:
             print(f"Database error: {e}")
             return []
-
-    def student_exists(self, student_code):
+    def Xoa_table_goi(self, NameTb):
         try:
             cursor = self.conn.cursor()
-            query = "SELECT 1 FROM students WHERE student_code = ?"
-            cursor.execute(query, (student_code,))
-            result = cursor.fetchone()
-            cursor.close()
-            return result is not None
-        except sqlite3.Error as e:
-            print(f"Database error: {e}")
-            return False
-
-    def add_student(self, student_code, student_name):
-        if self.student_exists(student_code):
-            print(f"Student with code {student_code} already exists.")
-            return False
-
-        try:
-            cursor = self.conn.cursor()
-            query = "INSERT INTO students (student_code, name) VALUES (?, ?)"
-            cursor.execute(query, (student_code, student_name))
+            cursor.execute("DELETE FROM A_table_goi WHERE Ten_ban = ?", (NameTb,))
             self.conn.commit()
             cursor.close()
-            return True
+            print(f"Deleted A_table_goi with Ten_ban: {NameTb}")
         except sqlite3.Error as e:
             print(f"Database error: {e}")
-            self.conn.rollback()  # Rollback any changes if an error occurs
-            return False
-
-    def delete_student(self, student_code):
-        try:
-            cursor = self.conn.cursor()
-            cursor.execute("DELETE FROM students WHERE student_code = ?", (student_code,))
-            self.conn.commit()
-            cursor.close()
-            print(f"Deleted student with code: {student_code}")
-        except sqlite3.Error as e:
-            print(f"Database error: {e}")
-            self.conn.rollback()  # Rollback any changes if an error occurs
-
-
+            self.conn.rollback()
 
     def __del__(self):
         if self.conn:
